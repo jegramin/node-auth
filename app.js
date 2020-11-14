@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const blogRoutes = require('./routes/blogRoutes')
 const authRoutes = require('./routes/authRoutes')
-const { requireAuth } = require('./middlewares/authMiddleware')
+const { requireAuth, checkUser } = require('./middlewares/authMiddleware')
 
 const app = express()
 
@@ -34,6 +34,7 @@ app.use(function (req, res, next) {
 });
 
 //routes
+app.get('*', checkUser)
 app.get('/', requireAuth, (req, res) => {
     res.redirect('/blog')
 })
